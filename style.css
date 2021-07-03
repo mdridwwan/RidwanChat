@@ -1,0 +1,86 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background: rgba(247, 0, 255, 0.788);
+}
+
+table {
+    margin: 0px;
+    padding: 0px;
+    width: 500px;
+    height: 00px;
+    color: white;
+    overflow: hidden;
+}
+
+#chat-box {
+    float: right;
+    border-radius: 10px;
+    width: 500PX;
+    height: 600PX;
+    background: tomato;
+    overflow: hidden;
+    margin-right: 32px;
+}
+
+#chatboxhead {
+    width: 100%;
+    height: 75px;
+    background: turquoise;
+}
+
+#chatimg {
+    width: 75px;
+    height: 66px;
+    padding: 0px;
+    margin-bottom: 2px;
+    margin-left: 0px;
+    position: relative;
+}
+
+#chatboxh {
+    color: rgb(0, 0, 0);
+    font-family: arial;
+    position: absolute;
+    margin-top: 20px;
+}
+
+#inboxsms {
+    word-wrap: break-word;
+}
+
+#sendmsg {
+    text-align: center;
+    padding-bottom: 1px;
+    padding-top: 29px;
+    border-bottom: 2px solid black;
+    font-size: 15px;
+    margin-top: -52px;
+    font-family: arial;
+}
+
+#videoblog {
+    margin: auto;
+    border: 2px solid black;
+    width: 400px;
+    height: 500px;
+}
+
+#FarhanVideo {
+    width: 400px;
+    height: 500px;
+    border: 2px solid rgb(221, 58, 58);
+    position: relative;
+}
+
+#RidwanVideo {
+    width: 135px;
+    height: 96px;
+    position: absolute;
+    margin-top: -513px;
+    margin-left: 7px;
+    padding: 0px;
+}

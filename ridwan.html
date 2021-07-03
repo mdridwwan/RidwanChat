@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ridwan Ahmed</title>
+    <script src="peerjs.min.js"></script>
+    <script src="jquery-3.6.0.min.js"></script>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Ridwan Ahmed</h1>
+    <h3>Peer Id: <span id="PeerIdNum"></span></h3>
+    <input type="text" placeholder="Ridwan Peer Id...." id="peerIdIput" autocomplete="off">
+    <input type="button" value="Connect" id="peeridbuttonConnect">
+    <h5>Connection Status: <span id="ConnectionStatus"></span></h5>
+
+    <input type="text" placeholder="Aa" id="messageInput" autocomplete="off">
+    <input type="button" value="Send" id="messageSend">
+    <input type="button" value="Receive Cell" onclick="ReceiveCell()">
+    <div id="chat-box">
+        <table id="allmessages">
+            <tr id="chatboxhead">
+                <th colspan="2">
+                    <img id="chatimg" src="img/chat.png" alt=""><span id="chatboxh">Chatbox</span>
+                </th>
+            </tr>
+            <tr id="rrrr">
+                <td id="inbosms">
+                    <h3 id="sendmsg">Receive message</h3>
+                </td>
+                <td id="inboxsms" align="right">
+                    <h3 id="sendmsg">Send Message</h3>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- //Video call -->
+
+    <div id="videoblog">
+
+        <div>
+            <h4>Farhan</h4>
+            <video id="FarhanVideo"></video>
+        </div>
+        <div align="left">
+            <h4>Ridwan</h4>
+            <video id="RidwanVideo"></video>
+        </div>
+
+    </div>
+
+</body>
+
+
+<script>
+    let MySTUNServer = "stun:stun.l.google.com:19302";
+    let MyTurnServer = "numb.viagenie.ca";
+    let MyTurnUserName = "mdridwan5830011@gmail.com";
+    let MyTurnPass = "Afn@9MpabsXn52y";
+
+    let StunTurnConfig = {
+        config: {
+            'iceServers': [{
+                urls: MySTUNServer
+            }, {
+                urls: MyTurnServer,
+                credential: MyTurnPass,
+                username: MyTurnUserName
+            }]
+        }
+    }
+
+
+
+
+    let peer = new Peer();
+    const allmessages = document.getElementById("allmessages");
+
+    let peerID = $('#peerIdIput').val();
+    peer.on('open', function(id) {
+        $('#PeerIdNum').html(id)
+    })
+
+    //connection
+    $('#peeridbuttonConnect').click(function() {
+            let peerID = $('#peerIdIput').val();
+            let conn = peer.connect(peerID);
+            conn.on('open', function() {
+                $('#ConnectionStatus').html("Success")
+            })
+        })
+        //send
+    $('#messageSend').click(function() {
+            let msg = $('#messageInput').val();
+            let peerID = $('#peerIdIput').val();
+            let conn = peer.connect(peerID);
+            conn.on('open', function() {
+                conn.send(msg)
+            })
+            allmessages.innerHTML = allmessages.innerHTML + `<tr><td></td><td align="right">${msg}</td></tr>`;
+        })
+        //Genarete recive
+    peer.on("connection", (connection) => {
+        connection.on("data", (response) => {
+            allmessages.innerHTML = allmessages.innerHTML + `<tr><td>${response}</td><td></td></tr>`;
+        })
+    });
+    //Genarete Receive call
+    function ReceiveCell() {
+        peer.on('call', function(call) {
+            let CaptureObj = {
+                "video": true,
+                "audio": true
+            };
+            navigator.mediaDevices.getUserMedia(CaptureObj)
+                .then(function(Stream) {
+                    call.answer(Stream);
+
+                    //Ridwan
+                    let RidwanVideo = document.getElementById('RidwanVideo');
+                    RidwanVideo.srcObject = Stream;
+                    RidwanVideo.play();
+
+
+
+                    call.on('stream', function(remoteStream) {
+                        //FArhan video
+                        let FarhanVideo = document.querySelector('FarhanVideo');
+                        FarhanVideo.srcObject = FileStream;
+                        FarhanVideo.play();
+
+                    });
+                });
+        });
+    }
+</script>
+
+
+</html>
